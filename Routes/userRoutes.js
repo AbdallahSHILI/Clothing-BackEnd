@@ -16,4 +16,12 @@ router.patch(
   userController.updateProfile
 );
 
+// Retrieve All Users
+router.get(
+  "/AllUsers",
+  authController.protect,
+  authController.restrictTo("admin"),
+  userController.findAllUsers
+);
+
 module.exports = router;

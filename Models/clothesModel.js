@@ -8,6 +8,10 @@ const ClothesSchema = new mongoose.Schema({
     select: true,
     minlength: 2,
   },
+  Date: {
+    type: Date,
+    default: Date.now,
+  },
   // Price: {
   //   type: String,
   //   required: [true, "Please enter the Price !!"],
@@ -17,6 +21,12 @@ const ClothesSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please upload the picture of clothes !!"],
   },
+  FavoriteUsers: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: "User",
+    },
+  ],
   //   DesignerID: {
   //     type: mongoose.Schema.ObjectId,
   //     ref: "User",
@@ -25,11 +35,13 @@ const ClothesSchema = new mongoose.Schema({
   //     type: mongoose.Schema.ObjectId,
   //     ref: "User",
   //   },
-  //   SoldOut: {
-  //     type: Boolean,
-  //     default: false,
-  //     select: true,
-  //   },
+  Buyed: {
+    /*remmeber to change it when use token and id of 
+    user 3la 5ater moush logic nesta3mlou boolean besh 
+    na3rfou ly hiya tba3t wela lee */
+    type: Boolean,
+    default: false,
+  },
   //   ListReqCustomers: [
   //     {
   //       type: mongoose.Schema.ObjectId,

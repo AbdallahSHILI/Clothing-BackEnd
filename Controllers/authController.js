@@ -70,7 +70,7 @@ exports.signup = async (req, res) => {
 //protect routes => authorize just the logged  user
 exports.protect = async (req, res, next) => {
   // 1)GETTING TOKEN AND CHECK OF IT'S THERE
-  let token = req.headers.authorization;
+  let token = req.headers.authorization.split(" ")[1];
   if (!token) {
     return res.status(401).send({
       status: "echec",
@@ -79,7 +79,7 @@ exports.protect = async (req, res, next) => {
   }
   // 2) VERIFICATION TOKEN
   const decoded = jwt.verify(token, process.env.JWT_SECRET);
-  console.log (decoded)
+  console.log(decoded);
   // 3) IF THE USER STILL EXIST
   const currentUser = await User.findById(decoded.id);
   //decoded.id is the id of the user logged in

@@ -23,3 +23,26 @@ exports.updateProfile = async (req, res, next) => {
     });
   }
 };
+
+exports.findAllUsers = async (req, res, next) => {
+  try {
+    const users = await User.find({ Role: "customer" });
+    if (users.length === 0) {
+      return res.status(200).json({
+        status: "Succes",
+        result: users.length,
+        users,
+      });
+    }
+    return res.status(200).json({
+      status: "Succes",
+      result: users.length,
+      users,
+    });
+  } catch (err) {
+    return res.status(404).json({
+      status: "Echec",
+      data: err,
+    });
+  }
+};

@@ -34,9 +34,16 @@ exports.createOne = async (req, res, next) => {
 
 exports.findAllClothes = async (req, res, next) => {
   try {
-    const doc = await Clothes.find({});
+    const clothes = await Clothes.find({});
+    if (clothes.length === 0) {
+      return res.status(400).json({
+        message: "No Clothes found!!",
+      });
+    }
     return res.status(200).json({
-      doc,
+      status: "Succes",
+      result: clothes.length,
+      clothes,
     });
   } catch (err) {
     return res.status(404).json({

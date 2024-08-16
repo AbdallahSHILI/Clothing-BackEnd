@@ -24,4 +24,12 @@ router.get(
   userController.findAllUsers
 );
 
+// Retrieve One User by id
+router.get(
+  "/OneUser/:idUser",
+  authController.protect,
+  authController.restrictTo("admin"),
+  userController.findOneUser
+);
+
 module.exports = router;

@@ -26,18 +26,37 @@ exports.updateProfile = async (req, res, next) => {
 
 exports.findAllUsers = async (req, res, next) => {
   try {
-    const users = await User.find({ Role: "customer" });
+    const users = await User.find({});
     if (users.length === 0) {
-      return res.status(200).json({
-        status: "Succes",
-        result: users.length,
-        users,
+      return res.status(400).json({
+        message: "No Users found!!",
       });
     }
     return res.status(200).json({
       status: "Succes",
       result: users.length,
       users,
+    });
+  } catch (err) {
+    return res.status(404).json({
+      status: "Echec",
+      data: err,
+    });
+  }
+};
+
+exports.findOneUser = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.idUser);
+    if (!user) {
+      return res.status(400).json({
+        message: "No user with that id !!",
+      });
+    }
+
+    return res.status(200).json({
+      status: "Succes",
+      user,
     });
   } catch (err) {
     return res.status(404).json({

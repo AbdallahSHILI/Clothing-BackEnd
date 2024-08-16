@@ -30,12 +30,7 @@ router.post(
 );
 
 // Retrieve all clothes
-router.get(
-  "/AllClothes",
-  authController.protect,
-  authController.restrictTo("admin"),
-  clothesController.findAllClothes
-);
+router.get("/AllClothes", clothesController.findAllClothes);
 
 // Retrieve one clothes
 router.get(

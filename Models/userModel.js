@@ -37,7 +37,11 @@ const userSchema = new mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
-  
+  Gender: {
+    type: String,
+    default: "Male",
+    enum: ["Femal", "Male"],
+  },
 
   //  Models maked by user
   //   MyModels: [

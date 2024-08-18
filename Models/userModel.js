@@ -40,7 +40,7 @@ const userSchema = new mongoose.Schema({
   Gender: {
     type: String,
     default: "Male",
-    enum: ["Femal", "Male"],
+    enum: ["Female", "Male"],
   },
 
   //  Models maked by user

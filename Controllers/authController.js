@@ -57,6 +57,7 @@ exports.signup = async (req, res) => {
       Password: req.body.Password,
       PhoneNumber: req.body.PhoneNumber,
       Role: req.body.Role,
+      Gender: req.body.Gender,
     });
     createSendToken(newUser, 201, res);
   } catch (err) {

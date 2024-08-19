@@ -16,6 +16,14 @@ router.patch(
   userController.updateProfile
 );
 
+//Make user an admin
+router.patch(
+  "/MakeAdmin/:idUser",
+  authController.protect,
+  authController.restrictTo("admin"),
+  userController.MakeAdmin
+);
+
 // Retrieve All Users
 router.get(
   "/AllUsers",

@@ -65,3 +65,33 @@ exports.findOneUser = async (req, res, next) => {
     });
   }
 };
+
+exports.MakeAdmin = async (req, res, next) => {
+  try {
+    // Set the role to 'admin'
+    const updatedData = { Role: "admin" };
+
+    // Update the user's role to 'admin'
+    let user = await User.findByIdAndUpdate(req.params.idUser, updatedData, {
+      new: true,
+      runValidators: true,
+    });
+
+    // Check if the user was updated successfully
+    if (user) {
+      return res.status(200).json({
+        status: "success",
+        user,
+      });
+    }
+
+    return res.status(404).json({
+      status: "No user with that id !!",
+    });
+  } catch (err) {
+    return res.status(500).json({
+      status: "Error",
+      data: err.message,
+    });
+  }
+};

@@ -95,3 +95,24 @@ exports.MakeAdmin = async (req, res, next) => {
     });
   }
 };
+
+exports.DeleteOneUser = async (req, res, next) => {
+  try {
+    const user = await User.findByIdAndDelete(req.params.idUser);
+    if (!user) {
+      return res.status(400).json({
+        message: "No user with that id !!",
+      });
+    }
+
+    return res.status(200).json({
+      status: "Succes",
+      message: "User deleted successfully!!",
+    });
+  } catch (err) {
+    return res.status(404).json({
+      status: "Echec",
+      data: err,
+    });
+  }
+};

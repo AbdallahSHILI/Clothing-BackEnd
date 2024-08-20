@@ -61,9 +61,16 @@ exports.signup = async (req, res) => {
     });
     createSendToken(newUser, 201, res);
   } catch (err) {
+    if (err.code === 11000 && err.keyPattern.Email) {
+      // MongoDB duplicate key error for the Email field
+      return res.status(400).json({
+        status: "echec",
+        message: "Email already exists",
+      });
+    }
     res.status(404).json({
       status: "echec",
-      message: err,
+      message: err.message,
     });
   }
 };

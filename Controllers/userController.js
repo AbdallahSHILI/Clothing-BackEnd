@@ -1,4 +1,5 @@
 const User = require("../Models/userModel");
+const ContactUs = require("../Models/ContactUsModel");
 
 exports.updateProfile = async (req, res, next) => {
   try {
@@ -92,6 +93,26 @@ exports.MakeAdmin = async (req, res, next) => {
     return res.status(500).json({
       status: "Error",
       data: err.message,
+    });
+  }
+};
+
+exports.createOneContactUs = async (req, res, next) => {
+  try {
+    let contactUs = await ContactUs.create(req.body);
+    if (contactUs) {
+      return res.status(201).json({
+        status: "Succes",
+        contactUs,
+      });
+    }
+    return res.status(400).json({
+      message: "Failed to create contact us!!",
+    });
+  } catch (err) {
+    return res.status(404).json({
+      status: "Echec",
+      data: err,
     });
   }
 };

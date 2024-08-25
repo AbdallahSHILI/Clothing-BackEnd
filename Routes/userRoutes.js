@@ -47,4 +47,12 @@ router.delete(
   userController.DeleteOneUser
 );
 
+// Contact Us Route
+router.post(
+  "/ContactUs",
+  authController.protect,
+  authController.restrictTo("customer"),
+  userController.createOneContactUs
+);
+
 module.exports = router;

@@ -3,6 +3,14 @@ const router = express.Router();
 const authController = require("../Controllers/authController");
 const userController = require("../Controllers/userController");
 
+//get profile by current user
+router.get(
+  "/Me",
+  authController.protect,
+  userController.getMe,
+  userController.getUserById
+);
+
 //create designer customer admin
 router.post("/Signup", authController.signup);
 
@@ -50,8 +58,8 @@ router.delete(
 // Contact Us Route
 router.post(
   "/ContactUs",
-  authController.protect,
-  authController.restrictTo("customer"),
+  // authController.protect,
+  // authController.restrictTo("customer"),
   userController.createOneContactUs
 );
 

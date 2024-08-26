@@ -1,6 +1,31 @@
 const User = require("../Models/userModel");
 const ContactUs = require("../Models/ContactUsModel");
 
+//get current user
+exports.getMe = (req, res, next) => {
+  req.params.id = req.user.id;
+  next();
+};
+
+exports.getUserById = async (req, res, next) => {
+  try {
+    // Test if there is a user
+    let user = await User.findById(req.params.id);
+    if (!user) {
+      return "NO user with that id !! ";
+    }
+    return res.status(200).json({
+      status: "Succes",
+      user,
+    });
+  } catch (err) {
+    return res.status(404).json({
+      status: "Echec",
+      data: err,
+    });
+  }
+};
+
 exports.updateProfile = async (req, res, next) => {
   try {
     // Update new changes

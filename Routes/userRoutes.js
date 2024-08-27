@@ -63,4 +63,12 @@ router.post(
   userController.createOneContactUs
 );
 
+// Retrieve All Messages
+router.get(
+  "/AllMessages",
+  authController.protect,
+  authController.restrictTo("admin"),
+  userController.findAllMessages
+);
+
 module.exports = router;

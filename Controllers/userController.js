@@ -92,6 +92,8 @@ exports.findOneUser = async (req, res, next) => {
   }
 };
 
+
+
 exports.MakeAdmin = async (req, res, next) => {
   try {
     // Set the role to 'admin'
@@ -162,3 +164,26 @@ exports.DeleteOneUser = async (req, res, next) => {
     });
   }
 };
+
+exports.findAllMessages = async (req, res, next) => {
+  try {
+    const messages = await ContactUs.find({});
+    if (!messages) {
+      return res.status(400).json({
+        message: "No messages found !!",
+      });
+    }
+
+    return res.status(200).json({
+      status: "Succes",
+      result: messages.length,
+      messages,
+    });
+  } catch (err) {
+    return res.status(404).json({
+      status: "Echec",
+      data: err,
+    });
+  }
+};
+

@@ -92,8 +92,6 @@ exports.findOneUser = async (req, res, next) => {
   }
 };
 
-
-
 exports.MakeAdmin = async (req, res, next) => {
   try {
     // Set the role to 'admin'
@@ -187,3 +185,23 @@ exports.findAllMessages = async (req, res, next) => {
   }
 };
 
+exports.findOneMessages = async (req, res, next) => {
+  try {
+    const message = await ContactUs.findById(req.params.idMessage);
+    if (!message) {
+      return res.status(400).json({
+        message: "No message with that id !!",
+      });
+    }
+
+    return res.status(200).json({
+      status: "Succes",
+      message,
+    });
+  } catch (err) {
+    return res.status(404).json({
+      status: "Echec",
+      data: err,
+    });
+  }
+};

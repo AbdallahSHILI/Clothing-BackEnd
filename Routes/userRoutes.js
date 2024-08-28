@@ -71,4 +71,12 @@ router.get(
   userController.findAllMessages
 );
 
+// Retrieve All Messages
+router.get(
+  "/OneMessage/:idMessage",
+  authController.protect,
+  authController.restrictTo("admin"),
+  userController.findOneMessages
+);
+
 module.exports = router;

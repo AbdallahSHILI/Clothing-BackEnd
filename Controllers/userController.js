@@ -124,10 +124,19 @@ exports.MakeAdmin = async (req, res, next) => {
 
 exports.createOneContactUs = async (req, res, next) => {
   try {
-    let contactUs = await ContactUs.create(req.body);
+    // Extract user ID from req.user (assuming protect middleware adds this)
+    const userId = req.user.id;
+
+    // Include UserId in the data to be saved
+    const contactUsData = {
+      ...req.body,
+      UserId: userId,
+    };
+
+    let contactUs = await ContactUs.create(contactUsData);
     if (contactUs) {
       return res.status(201).json({
-        status: "Succes",
+        status: "Success",
         contactUs,
       });
     }
@@ -185,7 +194,7 @@ exports.findAllMessages = async (req, res, next) => {
   }
 };
 
-exports.findOneMessages = async (req, res, next) => {
+exports.findOneMessage = async (req, res, next) => {
   try {
     const message = await ContactUs.findById(req.params.idMessage);
     if (!message) {

@@ -58,8 +58,8 @@ router.delete(
 // Contact Us Route
 router.post(
   "/ContactUs",
-  // authController.protect,
-  // authController.restrictTo("customer"),
+  authController.protect,
+  authController.restrictTo("customer"),
   userController.createOneContactUs
 );
 
@@ -71,12 +71,12 @@ router.get(
   userController.findAllMessages
 );
 
-// Retrieve All Messages
+// Retrieve one message
 router.get(
   "/OneMessage/:idMessage",
   authController.protect,
   authController.restrictTo("admin"),
-  userController.findOneMessages
+  userController.findOneMessage
 );
 
 module.exports = router;

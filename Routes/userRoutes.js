@@ -56,12 +56,7 @@ router.delete(
 );
 
 // Contact Us Route
-router.post(
-  "/ContactUs",
-  authController.protect,
-  authController.restrictTo("customer"),
-  userController.createOneContactUs
-);
+router.post("/ContactUs", userController.createOneContactUs);
 
 // Retrieve All Messages
 router.get(

@@ -25,10 +25,6 @@ const ContactUsSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  UserId: {
-    type: mongoose.Schema.ObjectId,
-    ref: "User",
-  },
 });
 
 //MODEL SCHEMA

@@ -1,6 +1,8 @@
 const { none } = require("../Middleware/Multer");
 const Clothes = require("../Models/clothesModel");
 const User = require("../Models/userModel");
+const Offre = require("../Models/offreModel");
+
 
 exports.createOne = async (req, res, next) => {
   try {
@@ -150,20 +152,36 @@ exports.deleteClothes = async (req, res, next) => {
 
 exports.BuyOneClothes = async (req, res, next) => {
   try {
+    // Find the clothes item by its ID
     const clothes = await Clothes.findById(req.params.idClothes);
+
     if (!clothes) {
       return res.status(400).json({
-        message: "No Clothes with that id !! ",
+        message: "No clothes with that ID!",
       });
     }
-    clothes.Buyed = !clothes.Buyed;
+
+    // Create a new offer
+    const newOffre = await Offre.create({
+      FirstLastName: req.user.FirstLastName,
+      Email: req.user.Email,
+      Price: req.body.Price,
+      Message: req.body.Message,
+      relatedClothes: clothes.id,
+    });
+    console.log(newOffre);
+
+    // Update the offersSent field in the clothes document
+    clothes.offersSent.push(newOffre.id);
     await clothes.save();
+
     return res.status(200).json({
       clothes,
+      offer: newOffre,
     });
   } catch (err) {
     return res.status(404).json({
-      status: "Echec",
+      status: "Failure",
       data: err,
     });
   }

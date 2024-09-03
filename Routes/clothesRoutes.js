@@ -57,10 +57,10 @@ router.patch(
 );
 
 // delete one clothes
-router.patch(
+router.post(
   "/BuyOneClothes/:idClothes",
-  // authController.protect,
-  // authController.restrictTo("designer"),
+  authController.protect,
+  authController.restrictTo("customer"),
   clothesController.BuyOneClothes
 );
 

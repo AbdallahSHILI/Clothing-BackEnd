@@ -42,51 +42,6 @@ const userSchema = new mongoose.Schema({
     default: "Male",
     enum: ["Female", "Male"],
   },
-
-  //  Models maked by user
-  //   MyModels: [
-  //     {
-  //       type: mongoose.Schema.ObjectId,
-  //       ref: "Model",
-  //     },
-  //   ],
-  //  Clothes maked by user
-  // Request of Models for designer
-  //   ReqSendModel: [
-  //     {
-  //       type: mongoose.Schema.ObjectId,
-  //       ref: "Model",
-  //     },
-  //   ],
-  // Request of clothes for customer
-  //   ReqSendClothes: [
-  //     {
-  //       type: mongoose.Schema.ObjectId,
-  //       ref: "Clothes",
-  //     },
-  //   ],
-  //   ModelsComplet: [
-  //     {
-  //       type: mongoose.Schema.ObjectId,
-  //       ref: "Model",
-  //     },
-  //   ],
-  //   ModelsIncomplet: [
-  //     {
-  //       type: mongoose.Schema.ObjectId,
-  //       ref: "Model",
-  //     },
-  //   ],
-  //   OfferSend: [
-  //     {
-  //       type: mongoose.Schema.ObjectId,
-  //       ref: "offer",
-  //     },
-  //   ],
-  //   NumberSuccesModel: {
-  //     type: Number,
-  //     default: 0,
-  //   },
 });
 
 //2) validate password

@@ -28,6 +28,12 @@ const ClothesSchema = new mongoose.Schema({
       ref: "Offre",
     },
   ],
+  userWhoSentOffer: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: "User",
+    },
+  ],
 });
 
 //MODEL SCHEMA

@@ -3,7 +3,6 @@ const Clothes = require("../Models/clothesModel");
 const User = require("../Models/userModel");
 const Offre = require("../Models/offreModel");
 
-
 exports.createOne = async (req, res, next) => {
   try {
     // Create new Model
@@ -173,6 +172,7 @@ exports.BuyOneClothes = async (req, res, next) => {
 
     // Update the offersSent field in the clothes document
     clothes.offersSent.push(newOffre.id);
+    clothes.userWhoSentOffer.push(req.user.id);
     await clothes.save();
 
     return res.status(200).json({

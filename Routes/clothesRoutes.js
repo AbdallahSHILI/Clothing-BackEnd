@@ -64,4 +64,12 @@ router.post(
   clothesController.BuyOneClothes
 );
 
+// Retrieve all unbuy clothes
+router.get(
+  "/AllUnBuyClothes",
+  // authController.protect,
+  // authController.restrictTo("admin"),
+  clothesController.AllUnBuyClothes
+);
+
 module.exports = router;

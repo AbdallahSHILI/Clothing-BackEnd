@@ -189,12 +189,34 @@ exports.BuyOneClothes = async (req, res, next) => {
 
 exports.AllBuyClothes = async (req, res, next) => {
   try {
-    const clothes = await Clothes.find({ Buyed: true });
+    const userId = req.user.id;
+
+    const clothes = await Clothes.find({ userWhoSentOffre: { $in: [userId] } });
     return clothes
       ? res.status(200).json({ clothes })
       : res
           .status(400)
           .json({ message: "There are no clothes in your Buyed list!" });
+  } catch (err) {
+    return res.status(404).json({
+      status: "Echec",
+      data: err,
+    });
+  }
+};
+
+exports.AllUnBuyClothes = async (req, res, next) => {
+  try {
+    const userId = req.user.id;
+
+    const clothes = await Clothes.find({
+      userWhoSentOffre: { $nin: [userId] },
+    });
+    return clothes
+      ? res.status(200).json({ clothes })
+      : res
+          .status(400)
+          .json({ message: "There are no clothes in your UnBuyed list!" });
   } catch (err) {
     return res.status(404).json({
       status: "Echec",

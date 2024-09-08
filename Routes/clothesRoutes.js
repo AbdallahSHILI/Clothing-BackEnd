@@ -15,8 +15,8 @@ router.get(
 // Retrieve all buy clothes
 router.get(
   "/AllBuyClothes",
-  // authController.protect,
-  // authController.restrictTo("admin"),
+  authController.protect,
+  authController.restrictTo("customer"),
   clothesController.AllBuyClothes
 );
 

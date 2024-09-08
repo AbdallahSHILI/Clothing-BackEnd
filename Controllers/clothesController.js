@@ -1,7 +1,7 @@
 const { none } = require("../Middleware/Multer");
 const Clothes = require("../Models/clothesModel");
 const User = require("../Models/userModel");
-const Offre = require("../Models/offreModel");
+const Offer = require("../Models/offreModel");
 
 exports.createOne = async (req, res, next) => {
   try {
@@ -166,6 +166,7 @@ exports.BuyOneClothes = async (req, res, next) => {
       Email: req.user.Email,
       Price: req.body.Price,
       Message: req.body.Message,
+      OwnerId: req.user.id,
       relatedClothes: clothes.id,
     });
     console.log(newOffre);
@@ -191,12 +192,12 @@ exports.AllBuyClothes = async (req, res, next) => {
   try {
     const userId = req.user.id;
 
-    const clothes = await Clothes.find({ userWhoSentOffre: { $in: [userId] } });
-    return clothes
-      ? res.status(200).json({ clothes })
+    const offres = await Offer.find({ OwerId: userId });
+    return offres
+      ? res.status(200).json({ offres })
       : res
           .status(400)
-          .json({ message: "There are no clothes in your Buyed list!" });
+          .json({ message: "There are no offres in your offres list!" });
   } catch (err) {
     return res.status(404).json({
       status: "Echec",

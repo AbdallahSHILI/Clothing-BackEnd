@@ -24,11 +24,15 @@ const OffreSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  relatedClothes:[
+  OwnerId: {
+    type: mongoose.Schema.ObjectId,
+    ref: "User",
+  },
+  relatedClothes: [
     {
-        type: mongoose.Schema.ObjectId,
-        ref: "Clothes",
-      },
+      type: mongoose.Schema.ObjectId,
+      ref: "Clothes",
+    },
   ],
 });
 

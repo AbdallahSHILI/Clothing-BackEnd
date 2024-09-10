@@ -191,8 +191,9 @@ exports.BuyOneClothes = async (req, res, next) => {
 exports.AllBuyClothes = async (req, res, next) => {
   try {
     const userId = req.user.id;
-
-    const offres = await Offer.find({ OwerId: userId });
+    console.log(userId);
+    const offres = await Offer.find({ OwnerId: userId });
+    console.log(offres);
     return offres
       ? res.status(200).json({ offres })
       : res

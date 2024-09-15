@@ -1,7 +1,7 @@
 const { none } = require("../Middleware/Multer");
 const Clothes = require("../Models/clothesModel");
 const User = require("../Models/userModel");
-const Offer = require("../Models/offreModel");
+const Offer = require("../Models/offerModel");
 
 exports.createOne = async (req, res, next) => {
   try {
@@ -161,7 +161,7 @@ exports.BuyOneClothes = async (req, res, next) => {
     }
 
     // Create a new offer
-    const newOffre = await Offre.create({
+    const newOffer = await Offer.create({
       FirstLastName: req.user.FirstLastName,
       Email: req.user.Email,
       Price: req.body.Price,
@@ -169,16 +169,16 @@ exports.BuyOneClothes = async (req, res, next) => {
       OwnerId: req.user.id,
       relatedClothes: clothes.id,
     });
-    console.log(newOffre);
+    console.log(newOffer);
 
     // Update the offersSent field in the clothes document
-    clothes.offersSent.push(newOffre.id);
+    clothes.offersSent.push(newOffer.id);
     clothes.userWhoSentOffer.push(req.user.id);
     await clothes.save();
 
     return res.status(200).json({
       clothes,
-      offer: newOffre,
+      offer: newOffer,
     });
   } catch (err) {
     return res.status(404).json({
@@ -192,13 +192,13 @@ exports.AllBuyClothes = async (req, res, next) => {
   try {
     const userId = req.user.id;
     console.log(userId);
-    const offres = await Offer.find({ OwnerId: userId });
-    console.log(offres);
-    return offres
-      ? res.status(200).json({ offres })
+    const offers = await Offer.find({});
+    console.log(offers);
+    return offers
+      ? res.status(200).json({ offers })
       : res
           .status(400)
-          .json({ message: "There are no offres in your offres list!" });
+          .json({ message: "There are no offers in your offers list!" });
   } catch (err) {
     return res.status(404).json({
       status: "Echec",
@@ -212,8 +212,9 @@ exports.AllUnBuyClothes = async (req, res, next) => {
     const userId = req.user.id;
 
     const clothes = await Clothes.find({
-      userWhoSentOffre: { $nin: [userId] },
+      userWhoSentOffer: { $in: [userId] },
     });
+    console.log(clothes);
     return clothes
       ? res.status(200).json({ clothes })
       : res

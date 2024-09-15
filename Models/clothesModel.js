@@ -25,7 +25,7 @@ const ClothesSchema = new mongoose.Schema({
   offersSent: [
     {
       type: mongoose.Schema.ObjectId,
-      ref: "Offre",
+      ref: "Offer",
     },
   ],
   userWhoSentOffer: [

@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 //Schema of an clothes
-const OffreSchema = new mongoose.Schema({
+const OfferSchema = new mongoose.Schema({
   FirstLastName: {
     type: String,
     required: [true, "Please enter the description of this clothes !!"],
@@ -28,14 +28,12 @@ const OffreSchema = new mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: "User",
   },
-  relatedClothes: [
-    {
-      type: mongoose.Schema.ObjectId,
-      ref: "Clothes",
-    },
-  ],
+  relatedClothes: {
+    type: mongoose.Schema.ObjectId,
+    ref: "Clothes",
+  },
 });
 
 //MODEL SCHEMA
-const Offre = mongoose.model("Offre", OffreSchema);
-module.exports = Offre;
+const Offer = mongoose.model("Offer", OfferSchema);
+module.exports = Offer;

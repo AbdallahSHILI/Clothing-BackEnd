@@ -131,15 +131,23 @@ exports.findOneClothes = async (req, res, next) => {
 
 exports.deleteClothes = async (req, res, next) => {
   try {
-    // Test if there is a Clothes
+    // Find and delete the clothes
     const clothes = await Clothes.findByIdAndDelete(req.params.idClothes);
     if (!clothes) {
       return res.status(400).send({
         message: "No Clothes with that id !! ",
       });
     }
+
+    // Delete all offers related to the clothes
+    await Promise.all(
+      clothes.offersSent.map(async (offerId) => {
+        await Offer.findByIdAndDelete(offerId);
+      })
+    );
+
     return res.status(200).send({
-      message: "That clothes has been deleted !!  ",
+      message: "That clothes and related offers have been deleted !!",
     });
   } catch (err) {
     return res.status(404).json({

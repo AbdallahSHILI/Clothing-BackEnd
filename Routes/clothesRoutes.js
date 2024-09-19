@@ -65,11 +65,17 @@ router.post(
 );
 
 // Retrieve all unbuy clothes
-router.get(
-  "/AllUnBuyClothes",
-  // authController.protect,
-  // authController.restrictTo("admin"),
-  clothesController.AllUnBuyClothes
-);
+// router.get(
+//   "/AllUnBuyClothes",
+//   authController.protect,
+//   authController.restrictTo("admin"),
+//   clothesController.AllUnBuyClothes
+// );
 
+router.get(
+  "/AllOffers/:idClothes",
+  authController.protect,
+  authController.restrictTo("admin"),
+  clothesController.findAllOffers
+);
 module.exports = router;

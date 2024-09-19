@@ -235,3 +235,37 @@ exports.AllUnBuyClothes = async (req, res, next) => {
     });
   }
 };
+
+exports.findAllOffers = async (req, res, next) => {
+  try {
+    // Find the clothes by ID using the provided parameter
+    const clothes = await Clothes.findById(req.params.idClothes);
+    if (!clothes) {
+      return res.status(400).json({
+        message: "No clothes with that ID!",
+      });
+    }
+    // Extract the offersSent array from the found clothes
+    const offers = clothes.offersSent;
+
+    // Check if there are any offers
+    if (offers.length > 0) {
+      return res.status(200).json({
+        offers, // Return the offers
+        count: offers.length, // Return the count of offers
+      });
+    } else {
+      // No offers found
+      return res.status(400).json({
+        message: "There are no offers found in the list!",
+        count: 0,
+      });
+    }
+  } catch (err) {
+    // Handle errors gracefully
+    return res.status(404).json({
+      status: "Failure",
+      data: err.message,
+    });
+  }
+};

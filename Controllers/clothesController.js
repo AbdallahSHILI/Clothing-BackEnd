@@ -239,7 +239,9 @@ exports.AllUnBuyClothes = async (req, res, next) => {
 exports.findAllOffers = async (req, res, next) => {
   try {
     // Find the clothes by ID using the provided parameter
-    const clothes = await Clothes.findById(req.params.idClothes);
+    const clothes = await Clothes.findById(req.params.idClothes).populate(
+      "offersSent"
+    );
     if (!clothes) {
       return res.status(400).json({
         message: "No clothes with that ID!",

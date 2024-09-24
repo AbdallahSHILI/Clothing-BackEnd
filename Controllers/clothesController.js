@@ -199,8 +199,7 @@ exports.BuyOneClothes = async (req, res, next) => {
 exports.AllBuyClothes = async (req, res, next) => {
   try {
     const userId = req.user.id;
-    console.log(userId);
-    const offers = await Offer.find({});
+    const offers = await Offer.find({ OwnerId: userId });
     console.log(offers);
     return offers
       ? res.status(200).json({ offers })
@@ -268,6 +267,62 @@ exports.findAllOffers = async (req, res, next) => {
     return res.status(404).json({
       status: "Failure",
       data: err.message,
+    });
+  }
+};
+
+exports.updateOffer = async (req, res, next) => {
+  try {
+    // Fetch the offer by ID
+    const offer = await Offer.findById(req.params.idOffer);
+
+    // Check if the offer exists
+    if (!offer) {
+      return res.status(404).json({
+        status: "fail",
+        message: "Offer not found with the specified ID.",
+      });
+    }
+
+    // Check if the logged-in user is the owner of the offer
+    if (offer.OwnerId.toString() !== req.user.id) {
+      return res.status(403).json({
+        status: "fail",
+        message: "You are not authorized to update this offer.",
+      });
+    }
+
+    // Update the offer with new data
+    const updatedOffer = await Offer.findByIdAndUpdate(
+      req.params.idOffer,
+      req.body,
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+
+    // Check if the update was successful
+    if (!updatedOffer) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Failed to update the offer.",
+      });
+    }
+
+    // Successfully updated the offer
+    return res.status(200).json({
+      status: "success",
+      data: {
+        offer: updatedOffer,
+      },
+    });
+  } catch (err) {
+    // Handle any other errors
+    return res.status(500).json({
+      status: "error",
+      message: "An error occurred while updating the offer.",
+      error: err.message,
     });
   }
 };

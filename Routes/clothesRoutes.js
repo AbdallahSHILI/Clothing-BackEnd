@@ -78,4 +78,12 @@ router.get(
   authController.restrictTo("admin"),
   clothesController.findAllOffers
 );
+
+router.patch(
+  "/UpdateOffer/:idOffer",
+  authController.protect,
+  authController.restrictTo("customer"),
+  clothesController.updateOffer
+);
+
 module.exports = router;

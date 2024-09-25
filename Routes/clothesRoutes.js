@@ -86,4 +86,12 @@ router.patch(
   clothesController.updateOffer
 );
 
+// delete one clothes
+router.delete(
+  "/DeleteOffer/:idOffer",
+  authController.protect,
+  authController.restrictTo("customer"),
+  clothesController.deleteOffer
+);
+
 module.exports = router;

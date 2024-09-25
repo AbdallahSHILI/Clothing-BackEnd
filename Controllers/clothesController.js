@@ -199,7 +199,9 @@ exports.BuyOneClothes = async (req, res, next) => {
 exports.AllBuyClothes = async (req, res, next) => {
   try {
     const userId = req.user.id;
-    const offers = await Offer.find({ OwnerId: userId });
+    const offers = await Offer.find({ OwnerId: userId }).populate(
+      "relatedClothes"
+    );
     console.log(offers);
     return offers
       ? res.status(200).json({ offers })
@@ -322,6 +324,51 @@ exports.updateOffer = async (req, res, next) => {
     return res.status(500).json({
       status: "error",
       message: "An error occurred while updating the offer.",
+      error: err.message,
+    });
+  }
+};
+
+exports.deleteOffer = async (req, res, next) => {
+  try {
+    // Find the offer by ID
+    const offer = await Offer.findById(req.params.idOffer);
+    if (!offer) {
+      return res.status(400).json({
+        status: "fail",
+        message: "No Offer found with that ID.",
+      });
+    }
+
+    // Check if the logged-in user is the owner of the offer
+    if (offer.OwnerId.toString() !== req.user.id) {
+      return res.status(403).json({
+        status: "fail",
+        message: "You are not authorized to delete this offer.",
+      });
+    }
+
+    // Update the associated clothing item to remove both the offer ID and user ID
+    await Clothes.findByIdAndUpdate(offer.relatedClothes, {
+      $pull: {
+        offersSent: req.params.idOffer, // Remove the offer ID from offersSent array
+        userWhoSentOffer: req.user.id, // Remove the user ID from userWhoSentOffer array
+      },
+    });
+
+    // After updating the clothes, delete the offer
+    await Offer.findByIdAndDelete(req.params.idOffer);
+
+    // Successfully deleted the offer and removed references
+    return res.status(200).json({
+      status: "success",
+      message: "Offer and associated references deleted successfully.",
+    });
+  } catch (err) {
+    // Handle errors gracefully
+    return res.status(500).json({
+      status: "error",
+      message: "An error occurred while deleting the offer.",
       error: err.message,
     });
   }

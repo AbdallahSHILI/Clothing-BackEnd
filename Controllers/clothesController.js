@@ -340,8 +340,8 @@ exports.deleteOffer = async (req, res, next) => {
       });
     }
 
-    // Check if the logged-in user is the owner of the offer
-    if (offer.OwnerId.toString() !== req.user.id) {
+    // Check if the logged-in user is either the owner or an admin
+    if (offer.OwnerId.toString() !== req.user.id && req.user.Role !== "admin") {
       return res.status(403).json({
         status: "fail",
         message: "You are not authorized to delete this offer.",
@@ -352,7 +352,7 @@ exports.deleteOffer = async (req, res, next) => {
     await Clothes.findByIdAndUpdate(offer.relatedClothes, {
       $pull: {
         offersSent: req.params.idOffer, // Remove the offer ID from offersSent array
-        userWhoSentOffer: req.user.id, // Remove the user ID from userWhoSentOffer array
+        userWhoSentOffer: offer.OwnerId, // Remove the user ID from userWhoSentOffer array
       },
     });
 

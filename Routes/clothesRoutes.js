@@ -90,7 +90,7 @@ router.patch(
 router.delete(
   "/DeleteOffer/:idOffer",
   authController.protect,
-  authController.restrictTo("customer"),
+  authController.restrictTo("customer", "admin"),
   clothesController.deleteOffer
 );
 
